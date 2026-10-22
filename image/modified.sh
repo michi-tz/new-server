@@ -28,11 +28,18 @@ for extension in "${extensions[@]}"; do
     fi
     echo "$extension is downloaded from $author"
     git_url="https://github.com/$author/mediawiki-extensions-$extension/archive/refs/heads/REL$version.tar.gz"
+    # old release branches of some extensions were converted to tags, which only gerrit still serves
+    gerrit_url="https://gerrit.wikimedia.org/r/plugins/gitiles/mediawiki/extensions/$extension/+archive/refs/tags/REL$version.tar.gz"
     set -eu; \
         cd /var/www/html/w/extensions; \
-        wget -q -O "$extension.tar.gz" "$git_url"; \
         [ ! -d "$extension" ] && mkdir -p "./$extension"; \
-        tar -xzf "$extension.tar.gz" -C "./$extension" --strip-components 1; \
+        if wget -q -O "$extension.tar.gz" "$git_url"; then \
+            tar -xzf "$extension.tar.gz" -C "./$extension" --strip-components 1; \
+        else \
+            echo "$extension branch not found on github, downloading tag from gerrit"; \
+            wget -q -O "$extension.tar.gz" "$gerrit_url"; \
+            tar -xzf "$extension.tar.gz" -C "./$extension"; \
+        fi; \
         chown -R www-data:www-data "./$extension"; \
         rm "$extension.tar.gz"
 done

@@ -1,13 +1,12 @@
-FROM php:8.4-apache AS mediawiki
+FROM php:8.3-apache AS mediawiki
 ARG MEDIAWIKI_MAJOR_VERSION_=1_42
 # Version
 ENV MEDIAWIKI_MAJOR_VERSION=1.42
-ENV MEDIAWIKI_VERSION=1.42.9
+ENV MEDIAWIKI_VERSION=1.42.7
 
 RUN set -eux; \
 	mkdir -p /var/www/html/w; \
-	chown -R root:root /var/www/html \
-	chmod -R 755 www-data:www-data /var/www/html
+	chown -R root:root /var/www/html
 
 # MediaWiki setup
 RUN set -eux; \
