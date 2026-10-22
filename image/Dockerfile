@@ -53,7 +53,7 @@ RUN set -eux;\
 	tar -x --strip-components=1 -f "${skinDir}/${skin}.tar.gz" -C "${skinDir}/${skin}"; \
 	rm "${skinDir}/${skin}.tar.gz";
 
-FROM php:8.4-apache AS extensions
+FROM php:8.3-apache AS extensions
 
 ARG MEDIAWIKI_MAJOR_VERSION_=1_42
 RUN set -eux; \
@@ -131,7 +131,7 @@ RUN set -eu; \
 
 RUN rm /var/www/html/w/extensions/modified.sh
 
-FROM php:8.4-apache AS server
+FROM php:8.3-apache AS server
 
 COPY php.ini-production /usr/local/etc/php/php.ini
 # System dependencies
@@ -180,7 +180,7 @@ RUN set -eux; \
 	opcache \
 	; \
 	\
-	pecl install APCu-5.1.21 luasandbox; \
+	pecl install APCu-5.1.28 luasandbox; \
 	docker-php-ext-enable \
 	apcu \
 	luasandbox \
