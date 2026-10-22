@@ -1,8 +1,8 @@
 FROM php:8.4-apache AS mediawiki
-ARG MEDIAWIKI_MAJOR_VERSION_=1_45
+ARG MEDIAWIKI_MAJOR_VERSION_=1_42
 # Version
-ENV MEDIAWIKI_MAJOR_VERSION=1.45
-ENV MEDIAWIKI_VERSION=1.45.4
+ENV MEDIAWIKI_MAJOR_VERSION=1.42
+ENV MEDIAWIKI_VERSION=1.42.9
 
 RUN set -eux; \
 	mkdir -p /var/www/html/w; \
@@ -56,7 +56,7 @@ RUN set -eux;\
 
 FROM php:8.4-apache AS extensions
 
-ARG MEDIAWIKI_MAJOR_VERSION_=1_45
+ARG MEDIAWIKI_MAJOR_VERSION_=1_42
 RUN set -eux; \
 	\
 	apt-get update; \
