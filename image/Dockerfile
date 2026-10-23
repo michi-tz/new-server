@@ -273,7 +273,8 @@ RUN chmod +x /home/update.sh
 RUN set -eu; \
 	cd /var/www/html/w; \
 	mv composer.local.json-sample composer.local.json; \
-	composer install --no-dev
+	# core pins a dev-only package (php_codesniffer) that composer's advisory blocking makes unresolvable
+	COMPOSER_NO_SECURITY_BLOCKING=1 composer install --no-dev
 
 RUN chown -R www-data:www-data /tmp
 RUN set -eu; \
